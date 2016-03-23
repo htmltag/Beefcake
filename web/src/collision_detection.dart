@@ -1,6 +1,6 @@
 part of beefcakegame;
 
-//Collision return
+//Collision return values
 class ColReturn {
   String dir;
   double value;
@@ -9,6 +9,12 @@ class ColReturn {
 
 class CollisionDetection {
   CollisionDetection();
+
+  void update(Player player) {
+    playerCollideWithGround(player, grounds);
+    bulletCollideWithGround(bullets, grounds);
+    playerCollideWithCoin(player, coins);
+  }
 
   void playerCollideWithGround(Player player, List<Ground> grounds) {
     grounds.forEach((ground) {
@@ -91,6 +97,21 @@ class CollisionDetection {
     });
   }
 
+  void playerCollideWithCoin(Player player, List<Coin> coinList) {
+  if (coinList.isEmpty) return;
+
+  coinList.forEach((co) {
+    if (co.x + co.width > player.x - player.width &&
+        co.x - co.width < player.x + player.width) { //check if player is close
+      if (collisionDetected(player.getRect(), co.getRect())) {
+        co.taken = true;
+        player.playerCoins++;
+      }
+    }
+  });
+  }
+
+  //Simple collision detection
   bool collisionDetected(SpriteRectangle rect1, SpriteRectangle rect2) {
     if (rect1.x < rect2.x + rect2.width &&
         rect1.x + rect1.width > rect2.x &&
@@ -104,8 +125,6 @@ class CollisionDetection {
     }
   }
 
-  void update(Player player) {
-    playerCollideWithGround(player, grounds);
-    bulletCollideWithGround(bullets, grounds);
-  }
 }
+
+

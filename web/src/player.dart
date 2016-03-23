@@ -15,6 +15,7 @@ class Player implements ImageLoader {
   bool isJumping, onGround, canFire;
   bool playerStateChanged;
   PlayerState playerState;
+  int playerCoins;
   BulletDirection bulletDir;
   Gun gun;
 
@@ -24,6 +25,7 @@ class Player implements ImageLoader {
     velX = velY = 0;
     width = 46;
     height = 85;
+    playerCoins = 0;
     rect = new SpriteRectangle();
     playerStateChanged = isJumping = onGround = false;
     playerState = PlayerState.idle;

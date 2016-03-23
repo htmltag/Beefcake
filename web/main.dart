@@ -11,6 +11,8 @@ part 'src/sprite_rectangle.dart';
 part 'src/collision_detection.dart';
 part 'src/bullet.dart';
 part 'src/gun.dart';
+part "src/coin.dart";
+part "src/updates.dart";
 
 //Global variables
 Canvas canvas;
@@ -19,6 +21,7 @@ CanvasRenderingContext2D ctxBackground;
 Map<int, bool> keyMap = new Map<int, bool>();
 List<Ground> grounds = new List<Ground>();
 List<Bullet> bullets = new List<Bullet>();
+List<Coin> coins = new List<Coin>();
 CollisionDetection collisionDetection = new CollisionDetection();
 double deltaTime;
 
@@ -47,7 +50,7 @@ class Game {
 
     //Render the scene.
     myPlayer.update();
-    //gms.update();
+    runUpdates();
 
     //Keep track of time...
     prevTime = time;

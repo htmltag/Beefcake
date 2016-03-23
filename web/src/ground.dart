@@ -27,6 +27,12 @@ class GroundMakerSimple {
 
     Ground ground4 = new Ground(posY: yPos - 96 * 5, posX: 12 * 96);
     grounds.add(ground4);
+
+    for(int i = 0; i < 5; i++){
+      Coin coin = new Coin(posY: yPos - 50 * 2, posX: (10 + i) * 96);
+      coins.add(coin);
+    }
+
   }
 
   void update() {
@@ -61,7 +67,7 @@ class Ground {
   }
 
   void onData(Event e) {
-    print("success: player added");
+    print("success: ground added");
     //Draw it on the background
     ctxBackground.drawImage(ground, x, y);
   }
