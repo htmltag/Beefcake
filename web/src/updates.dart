@@ -1,5 +1,6 @@
 part of beefcakegame;
 
+//General updates during the game.
 void runUpdates(){
   updateCoins();
 }

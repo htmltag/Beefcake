@@ -7,3 +7,35 @@ html, body {
     padding: 0;
     font-family: 'Roboto', sans-serif;
 }
+
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: rgb(136,191,232);
+    background: -moz-linear-gradient(top,  rgba(136,191,232,1) 0%, rgba(112,176,224,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(136,191,232,1)), color-stop(100%,rgba(112,176,224,1)));
+    background: -webkit-linear-gradient(top,  rgba(136,191,232,1) 0%,rgba(112,176,224,1) 100%);
+    background: -o-linear-gradient(top,  rgba(136,191,232,1) 0%,rgba(112,176,224,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(136,191,232,1) 0%,rgba(112,176,224,1) 100%);
+    background: linear-gradient(to bottom,  rgba(136,191,232,1) 0%,rgba(112,176,224,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88bfe8', endColorstr='#70b0e0',GradientType=0 );
+}
+canvas{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    left:0;
+    top:0;
+}
+.hud{
+    position: absolute;
+    left:0;
+    top:0;
+    color: #efefef;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    z-index: 9;
+    padding:1em;
+}

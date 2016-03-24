@@ -1,6 +1,6 @@
 part of beefcakegame;
 
-class Coin {
+class Coin implements ImageLoader{
   ImageElement coin;
   SpriteRectangle rect;
   int x, y;

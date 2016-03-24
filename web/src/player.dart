@@ -6,6 +6,7 @@ class Player implements ImageLoader {
   SpriteSheet spriteSheet;
   SpriteRectangle rect;
   ImageElement player;
+  DivElement scoreElement;
   int x, y, velX, velY;
   int width, height;
   final double playerSpeed = 5.0;
@@ -35,6 +36,7 @@ class Player implements ImageLoader {
         new SpriteSheet(20, 7, width, height, spriteUpdatePrSec, player);
     canFire = true;
     gun = new Gun();
+    setupScoreElement();
   }
 
   void loadImage(ImageElement image) {
@@ -159,5 +161,17 @@ class Player implements ImageLoader {
     rect.width = width;
     rect.height = height;
     return rect;
+  }
+
+  //HUD
+  void setupScoreElement(){
+    DivElement hudDiv = querySelector("#hud");
+    scoreElement = new Element.div();
+    scoreElement.text = 'Coins: $playerCoins';
+    hudDiv.append(scoreElement);
+  }
+
+  void updateScoreELement(){
+    scoreElement.text = 'Coins: $playerCoins';
   }
 }

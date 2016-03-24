@@ -44,7 +44,7 @@ class GroundMakerSimple {
   }
 }
 
-class Ground {
+class Ground implements ImageLoader{
   ImageElement ground;
   SpriteRectangle rect;
   int x, y;
