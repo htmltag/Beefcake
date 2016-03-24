@@ -1,6 +1,9 @@
 library beefcakegame;
 
 import 'dart:html';
+import 'dart:math';
+
+import 'package:color/color.dart';
 
 part 'src/canvas.dart';
 part 'src/player.dart';
@@ -13,11 +16,13 @@ part 'src/bullet.dart';
 part 'src/gun.dart';
 part "src/coin.dart";
 part "src/updates.dart";
+part "src/background.dart";
 
 //Global variables
 Canvas canvas;
 CanvasRenderingContext2D ctx;
 CanvasRenderingContext2D ctxBackground;
+CanvasRenderingContext2D ctxLevel;
 Map<int, bool> keyMap = new Map<int, bool>();
 List<Ground> grounds = new List<Ground>();
 List<Bullet> bullets = new List<Bullet>();
@@ -35,12 +40,15 @@ class Game {
     deltaTime = 1.0;
     Canvas canvasBackground = new Canvas();
     ctxBackground = canvasBackground.getCTX();
+    Canvas canvasLevel = new Canvas();
+    ctxLevel = canvasLevel.getCTX();
     canvas = new Canvas();
     ctx = canvas.getCTX();
     myPlayer = new Player();
     gms = new GroundMakerSimple();
     gms.makeGround();
     keyMap[37] = keyMap[38] = keyMap[39] = keyMap[40] = false;
+    generateBackground();
   }
 
   void animate(num time) {

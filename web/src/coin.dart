@@ -25,7 +25,7 @@ class Coin implements ImageLoader{
   void onData(Event e) {
     print("success: coin added");
     //Draw it on the background
-    ctxBackground.drawImage(coin, x, y);
+    ctxLevel.drawImage(coin, x, y);
   }
 
   void onError(Event e) {
@@ -37,12 +37,12 @@ class Coin implements ImageLoader{
   }
 
   void clear(){
-    ctxBackground.clearRect(x, y, width, height);
+    ctxLevel.clearRect(x, y, width, height);
   }
 
   void update() {
-    ctxBackground.clearRect(x, y, width, height);
-    ctxBackground.drawImage(coin, x, y);
+    ctxLevel.clearRect(x, y, width, height);
+    ctxLevel.drawImage(coin, x, y);
   }
 
   SpriteRectangle getRect() {

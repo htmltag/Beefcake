@@ -38,4 +38,10 @@ canvas{
     font-weight: bold;
     z-index: 9;
     padding:1em;
+    border-bottom: double 1px #3a3a3a;
+    background-color: midnightblue;
+}
+
+.space{
+    min-width:3em;
 }

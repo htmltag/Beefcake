@@ -16,7 +16,7 @@ class Player implements ImageLoader {
   bool isJumping, onGround, canFire;
   bool playerStateChanged;
   PlayerState playerState;
-  int playerCoins;
+  int playerCoins, playerHealth;
   BulletDirection bulletDir;
   Gun gun;
 
@@ -27,6 +27,7 @@ class Player implements ImageLoader {
     width = 46;
     height = 85;
     playerCoins = 0;
+    playerHealth = 100;
     rect = new SpriteRectangle();
     playerStateChanged = isJumping = onGround = false;
     playerState = PlayerState.idle;
@@ -167,11 +168,11 @@ class Player implements ImageLoader {
   void setupScoreElement(){
     DivElement hudDiv = querySelector("#hud");
     scoreElement = new Element.div();
-    scoreElement.text = 'Coins: $playerCoins';
+    scoreElement.text = 'Coins: $playerCoins Health: $playerHealth %';
     hudDiv.append(scoreElement);
   }
 
-  void updateScoreELement(){
-    scoreElement.text = 'Coins: $playerCoins';
+  void updateScoreElement(){
+    scoreElement.text = 'Coins: $playerCoins  Health: $playerHealth %';
   }
 }

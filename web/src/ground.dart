@@ -69,7 +69,7 @@ class Ground implements ImageLoader{
   void onData(Event e) {
     print("success: ground added");
     //Draw it on the background
-    ctxBackground.drawImage(ground, x, y);
+    ctxLevel.drawImage(ground, x, y);
   }
 
   void onError(Event e) {
@@ -81,8 +81,8 @@ class Ground implements ImageLoader{
   }
 
   void update() {
-    ctxBackground.clearRect(x, y, width, height);
-    ctxBackground.drawImage(ground, x, y);
+    ctxLevel.clearRect(x, y, width, height);
+    ctxLevel.drawImage(ground, x, y);
   }
 
   SpriteRectangle getRect() {

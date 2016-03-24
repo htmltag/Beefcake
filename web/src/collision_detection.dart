@@ -106,7 +106,7 @@ class CollisionDetection {
       if (collisionDetected(player.getRect(), co.getRect())) {
         co.taken = true;
         player.playerCoins++;
-        player.updateScoreELement();
+        player.updateScoreElement();
       }
     }
   });
