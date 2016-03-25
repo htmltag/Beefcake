@@ -115,10 +115,12 @@ class Player implements ImageLoader {
       }
     }
 
+    //Need to press again to fire
     if (keyMap[32] == false) {
       canFire = true;
     }
 
+    //Arrow up / jump
     if (keyMap[38] == true && (y > 0) && !isJumping) {
       velY = -(playerSpeed * 1.3).floor();
       isJumping = true;

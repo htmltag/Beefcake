@@ -16,6 +16,10 @@ class CollisionDetection {
     playerCollideWithCoin(player, coins);
   }
 
+  void updateGhost(Ghost ghost){
+    ghostCollideWithGround(ghost, grounds);
+  }
+
   void playerCollideWithGround(Player player, List<Ground> grounds) {
     grounds.forEach((ground) {
       // Just check ground that is close to player.
@@ -37,6 +41,34 @@ class CollisionDetection {
         } else if (colDir.dir == "t") {
           player.y += colDir.value;
           player.velY *= -1;
+        }
+      }
+    });
+  }
+
+  void ghostCollideWithGround(Ghost ghost, List<Ground> grounds) {
+    grounds.forEach((ground) {
+      // Just check ground that is close to player.
+      if (ground.x + ground.width > ghost.x - ghost.width &&
+          ground.x - ground.width < ghost.x + ghost.width) {
+        ColReturn colDir = colCheck(ghost.getRect(), ground.getRect());
+        if (colDir.dir == "l") {
+          ghost.x += colDir.value;
+          ghost.velX = 0;
+          ghost.direction = GhostDirection.right;
+          ghost.isJumping = false;
+        } else if (colDir.dir == "r") {
+          ghost.x -= colDir.value;
+          ghost.velX = 0;
+          ghost.direction = GhostDirection.left;
+          ghost.isJumping = false;
+        } else if (colDir.dir == "b") {
+          ghost.y -= colDir.value;
+          ghost.onGround = true;
+          ghost.isJumping = false;
+        } else if (colDir.dir == "t") {
+          ghost.y += colDir.value;
+          ghost.velY *= -1;
         }
       }
     });

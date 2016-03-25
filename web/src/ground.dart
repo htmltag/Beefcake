@@ -8,7 +8,7 @@ class GroundMakerSimple {
     int numOfSprites = (canvas.canvasElement.width / 96).floor();
     int yPos = canvas.canvasElement.height - 96;
     grounds.clear();
-    for (int i = 0; i < numOfSprites; i++) {
+    for (int i = 0; i < numOfSprites + 1; i++) {
       Ground ground = new Ground(posY: yPos, posX: i * 96);
       grounds.add(ground);
     }
