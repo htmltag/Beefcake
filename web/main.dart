@@ -32,7 +32,6 @@ List<Ghost> ghosts = new List<Ghost>();
 CollisionDetection collisionDetection = new CollisionDetection();
 double deltaTime;
 
-
 class Game {
   Player myPlayer;
   GroundMakerSimple gms;

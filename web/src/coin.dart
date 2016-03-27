@@ -1,6 +1,6 @@
 part of beefcakegame;
 
-class Coin implements ImageLoader{
+class Coin implements ImageLoader {
   ImageElement coin;
   SpriteRectangle rect;
   int x, y;
@@ -36,7 +36,7 @@ class Coin implements ImageLoader{
     print("done");
   }
 
-  void clear(){
+  void clear() {
     ctxLevel.clearRect(x, y, width, height);
   }
 

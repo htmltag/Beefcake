@@ -1,7 +1,7 @@
 part of beefcakegame;
 
-void generateGhosts(){
-  for(int i = 0; i < 5; i++){
+void generateGhosts() {
+  for (int i = 0; i < 5; i++) {
     Ghost ghost = new Ghost();
     ghosts.add(ghost);
   }
@@ -17,7 +17,7 @@ class Ghost implements ImageLoader {
   int width, height;
   final double ghostSpeed = 5.0;
   final int spriteUpdatePrSec = 6;
-  final double gravity =  0.3;
+  final double gravity = 0.3;
   final double friction = 0.8;
   bool onGround, isJumping;
   GhostDirection direction;
@@ -37,7 +37,7 @@ class Ghost implements ImageLoader {
     ghost = new ImageElement(src: 'images/ghost-sprite-sheet.png');
     loadImage(ghost);
     spriteSheet =
-    new SpriteSheet(3, 3, width, height, spriteUpdatePrSec, ghost);
+        new SpriteSheet(3, 3, width, height, spriteUpdatePrSec, ghost);
     direction = GhostDirection.left;
   }
 
@@ -79,24 +79,24 @@ class Ghost implements ImageLoader {
     }
 
     //Jump
-    if(onGround && !isJumping){
+    if (onGround && !isJumping) {
       velY = -(ghostSpeed * rnd.nextInt(3)).floor();
       isJumping = true;
       onGround = false;
     }
 
-    if((x <= 0)){
+    if ((x <= 0)) {
       direction = GhostDirection.right;
-    }else if(x + width >= canvas.canvasElement.width){
+    } else if (x + width >= canvas.canvasElement.width) {
       direction = GhostDirection.left;
     }
 
-    if(direction == GhostDirection.left){
-      if(velX > -ghostSpeed){
+    if (direction == GhostDirection.left) {
+      if (velX > -ghostSpeed) {
         velX--;
       }
-    }else{
-      if(velX < ghostSpeed){
+    } else {
+      if (velX < ghostSpeed) {
         velX++;
       }
     }
@@ -108,7 +108,7 @@ class Ghost implements ImageLoader {
     spriteSheet.nextFrameMulti(x, y, false, 1, 3);
   }
 
-  void clear(){
+  void clear() {
     spriteSheet.clear();
   }
 
@@ -120,8 +120,8 @@ class Ghost implements ImageLoader {
     return rect;
   }
 
-  void hit(){
-    if(health > 0){
+  void hit() {
+    if (health > 0) {
       health--;
     }
   }

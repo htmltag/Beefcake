@@ -78,5 +78,4 @@ class SpriteSheet {
       ctx.clearRect(prevPosX, prevPosY, frameSizeWidth, frameSizeHeight);
     }
   }
-
 }

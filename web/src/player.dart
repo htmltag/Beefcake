@@ -11,7 +11,7 @@ class Player implements ImageLoader {
   int width, height;
   final double playerSpeed = 5.0;
   final int spriteUpdatePrSec = 30;
-  final double gravity =  0.3;
+  final double gravity = 0.3;
   final double friction = 0.8;
   bool isJumping, onGround, canFire;
   bool playerStateChanged;
@@ -166,15 +166,19 @@ class Player implements ImageLoader {
     return rect;
   }
 
+  void hit() {
+    playerHealth -= 10;
+  }
+
   //HUD
-  void setupScoreElement(){
+  void setupScoreElement() {
     DivElement hudDiv = querySelector("#hud");
     scoreElement = new Element.div();
     scoreElement.text = 'Coins: $playerCoins Health: $playerHealth %';
     hudDiv.append(scoreElement);
   }
 
-  void updateScoreElement(){
+  void updateScoreElement() {
     scoreElement.text = 'Coins: $playerCoins  Health: $playerHealth %';
   }
 }

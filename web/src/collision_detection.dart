@@ -7,9 +7,6 @@ class ColReturn {
   ColReturn();
 }
 
-//ToDo: Add ghost collide with other ghost.
-//ToDo: Add player collide with ghost.
-
 class CollisionDetection {
   CollisionDetection();
 
@@ -18,10 +15,12 @@ class CollisionDetection {
     bulletCollideWithGround(bullets, grounds);
     bulletCollideWithGhost(bullets, ghosts);
     playerCollideWithCoin(player, coins);
+    playerCollideWithGhost(player, ghosts);
   }
 
-  void updateGhost(Ghost ghost){
+  void updateGhost(Ghost ghost) {
     ghostCollideWithGround(ghost, grounds);
+    ghostCollideWithGhost(ghost, ghosts);
   }
 
   void playerCollideWithGround(Player player, List<Ground> grounds) {
@@ -133,8 +132,7 @@ class CollisionDetection {
     });
   }
 
-  void bulletCollideWithGhost(
-      List<Bullet> bulletList, List<Ghost> ghostList) {
+  void bulletCollideWithGhost(List<Bullet> bulletList, List<Ghost> ghostList) {
     if (bulletList.isEmpty) return;
 
     bulletList.forEach((bu) {
@@ -151,18 +149,49 @@ class CollisionDetection {
   }
 
   void playerCollideWithCoin(Player player, List<Coin> coinList) {
-  if (coinList.isEmpty) return;
+    if (coinList.isEmpty) return;
 
-  coinList.forEach((co) {
-    if (co.x + co.width > player.x - player.width &&
-        co.x - co.width < player.x + player.width) { //check if player is close
-      if (collisionDetected(player.getRect(), co.getRect())) {
-        co.taken = true;
-        player.playerCoins++;
-        player.updateScoreElement();
+    coinList.forEach((co) {
+      if (co.x + co.width > player.x - player.width &&
+          co.x - co.width < player.x + player.width) {
+        //check if player is close
+        if (collisionDetected(player.getRect(), co.getRect())) {
+          co.taken = true;
+          player.playerCoins++;
+          player.updateScoreElement();
+        }
       }
-    }
-  });
+    });
+  }
+
+  void ghostCollideWithGhost(Ghost ghost, List<Ghost> ghostList) {
+    ghostList.forEach((gst) {
+      if (gst.x != ghost.x && gst.y != ghost.y) {
+        // should be same
+        if (gst.x + gst.width > ghost.x - ghost.width &&
+            gst.x - gst.width < ghost.x + ghost.width) {
+          //check if player is close
+          if (collisionDetected(ghost.getRect(), gst.getRect())) {
+            gst.velX = 0;
+          }
+        }
+      }
+    });
+  }
+
+  void playerCollideWithGhost(Player player, List<Ghost> ghostList) {
+    ghostList.forEach((gst) {
+      if (gst.x + gst.width > player.x - player.width &&
+          gst.x - gst.width < player.x + player.width) {
+        //check if player is close
+        if (collisionDetected(player.getRect(), gst.getRect())) {
+          gst.velX = 0;
+          gst.hit();
+          player.velX = 0;
+          player.hit();
+        }
+      }
+    });
   }
 
   //Simple collision detection
@@ -178,7 +207,4 @@ class CollisionDetection {
       return false;
     }
   }
-
 }
-
-
