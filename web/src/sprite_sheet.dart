@@ -72,4 +72,11 @@ class SpriteSheet {
       frameCounter++;
     }
   }
+
+  void clear() {
+    if (prevPosX != null && prevPosY != null) {
+      ctx.clearRect(prevPosX, prevPosY, frameSizeWidth, frameSizeHeight);
+    }
+  }
+
 }

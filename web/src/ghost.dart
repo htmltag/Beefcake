@@ -1,5 +1,12 @@
 part of beefcakegame;
 
+void generateGhosts(){
+  for(int i = 0; i < 5; i++){
+    Ghost ghost = new Ghost();
+    ghosts.add(ghost);
+  }
+}
+
 enum GhostDirection { right, left }
 
 class Ghost implements ImageLoader {
@@ -15,6 +22,7 @@ class Ghost implements ImageLoader {
   bool onGround, isJumping;
   GhostDirection direction;
   Random rnd;
+  int health;
 
   Ghost() {
     y = 50;
@@ -22,6 +30,7 @@ class Ghost implements ImageLoader {
     velX = velY = 0;
     width = 60;
     height = 60;
+    health = 1;
     rect = new SpriteRectangle();
     onGround = isJumping = false;
     rnd = new Random();
@@ -99,11 +108,21 @@ class Ghost implements ImageLoader {
     spriteSheet.nextFrameMulti(x, y, false, 1, 3);
   }
 
+  void clear(){
+    spriteSheet.clear();
+  }
+
   SpriteRectangle getRect() {
     rect.x = x;
     rect.y = y;
     rect.width = width;
     rect.height = height;
     return rect;
+  }
+
+  void hit(){
+    if(health > 0){
+      health--;
+    }
   }
 }

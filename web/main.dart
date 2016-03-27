@@ -28,10 +28,10 @@ Map<int, bool> keyMap = new Map<int, bool>();
 List<Ground> grounds = new List<Ground>();
 List<Bullet> bullets = new List<Bullet>();
 List<Coin> coins = new List<Coin>();
+List<Ghost> ghosts = new List<Ghost>();
 CollisionDetection collisionDetection = new CollisionDetection();
 double deltaTime;
 
-Ghost myGhost;
 
 class Game {
   Player myPlayer;
@@ -52,7 +52,7 @@ class Game {
     gms.makeGround();
     keyMap[37] = keyMap[38] = keyMap[39] = keyMap[40] = false;
     generateBackground();
-    myGhost = new Ghost();
+    generateGhosts();
   }
 
   void animate(num time) {
@@ -62,7 +62,6 @@ class Game {
 
     //Render the scene.
     myPlayer.update();
-    myGhost.update();
     runUpdates();
 
     //Keep track of time...

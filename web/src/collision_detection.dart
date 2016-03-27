@@ -7,12 +7,16 @@ class ColReturn {
   ColReturn();
 }
 
+//ToDo: Add ghost collide with other ghost.
+//ToDo: Add player collide with ghost.
+
 class CollisionDetection {
   CollisionDetection();
 
   void update(Player player) {
     playerCollideWithGround(player, grounds);
     bulletCollideWithGround(bullets, grounds);
+    bulletCollideWithGhost(bullets, ghosts);
     playerCollideWithCoin(player, coins);
   }
 
@@ -123,6 +127,23 @@ class CollisionDetection {
             (bu.dir == BulletDirection.left && bu.x >= gr.x)) {
           if (collisionDetected(bu.getRect(), gr.getRect())) {
             bu.reset();
+          }
+        }
+      });
+    });
+  }
+
+  void bulletCollideWithGhost(
+      List<Bullet> bulletList, List<Ghost> ghostList) {
+    if (bulletList.isEmpty) return;
+
+    bulletList.forEach((bu) {
+      ghostList.forEach((gst) {
+        if ((bu.dir == BulletDirection.right && bu.x <= gst.x + gst.width) ||
+            (bu.dir == BulletDirection.left && bu.x >= gst.x)) {
+          if (collisionDetected(bu.getRect(), gst.getRect())) {
+            bu.reset();
+            gst.hit();
           }
         }
       });
