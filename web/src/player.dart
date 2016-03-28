@@ -13,7 +13,7 @@ class Player implements ImageLoader {
   final int spriteUpdatePrSec = 30;
   final double gravity = 0.3;
   final double friction = 0.8;
-  bool isJumping, onGround, canFire;
+  bool isJumping, onGround, canFire, isAlive;
   bool playerStateChanged;
   PlayerState playerState;
   int playerCoins, playerHealth;
@@ -30,6 +30,7 @@ class Player implements ImageLoader {
     playerHealth = 100;
     rect = new SpriteRectangle();
     playerStateChanged = isJumping = onGround = false;
+    isAlive = true;
     playerState = PlayerState.idle;
     player = new ImageElement(src: 'images/major-sprite-sheet.png');
     loadImage(player);
@@ -78,6 +79,14 @@ class Player implements ImageLoader {
       y = height - canvas.canvasElement.height;
       isJumping = false;
       onGround = true;
+    }
+
+    if(!isAlive){
+      gameStates.ChangeState(GameStateEnum.gameOver);
+    }
+
+    if(playerCoins >= 100){
+      gameStates.ChangeState(GameStateEnum.won);
     }
 
     _updateSprite();
@@ -168,12 +177,15 @@ class Player implements ImageLoader {
 
   void hit() {
     playerHealth -= 10;
+    if(playerHealth <= 0){
+      isAlive = false;
+    }
   }
 
   //HUD
   void setupScoreElement() {
     DivElement hudDiv = querySelector("#hud");
-    scoreElement = new Element.div();
+    scoreElement = querySelector("#score");
     scoreElement.text = 'Coins: $playerCoins Health: $playerHealth %';
     hudDiv.append(scoreElement);
   }

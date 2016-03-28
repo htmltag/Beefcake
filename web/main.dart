@@ -18,12 +18,14 @@ part "src/coin.dart";
 part "src/updates.dart";
 part "src/background.dart";
 part "src/ghost.dart";
+part "src/gamestates.dart";
 
 //Global variables
 Canvas canvas;
 CanvasRenderingContext2D ctx;
 CanvasRenderingContext2D ctxBackground;
 CanvasRenderingContext2D ctxLevel;
+GameStates gameStates;
 Map<int, bool> keyMap = new Map<int, bool>();
 List<Ground> grounds = new List<Ground>();
 List<Bullet> bullets = new List<Bullet>();
@@ -31,6 +33,7 @@ List<Coin> coins = new List<Coin>();
 List<Ghost> ghosts = new List<Ghost>();
 CollisionDetection collisionDetection = new CollisionDetection();
 double deltaTime;
+bool clicked = false;
 
 class Game {
   Player myPlayer;
@@ -46,12 +49,9 @@ class Game {
     ctxLevel = canvasLevel.getCTX();
     canvas = new Canvas();
     ctx = canvas.getCTX();
-    myPlayer = new Player();
-    gms = new GroundMakerSimple();
-    gms.makeGround();
-    keyMap[37] = keyMap[38] = keyMap[39] = keyMap[40] = false;
+    gameStates = new GameStates();
     generateBackground();
-    generateGhosts();
+    keyMap[37] = keyMap[38] = keyMap[39] = keyMap[40] = keyMap[13] = false;
   }
 
   void animate(num time) {
@@ -59,13 +59,100 @@ class Game {
     DateTime time = new DateTime.now();
     deltaTime = time.difference(prevTime).inMilliseconds / 1000;
 
+    if (keyMap[13] == true || clicked == true){
+      checkGameState();
+      keyMap[13] = false;
+      clicked = false;
+    }
+
     //Render the scene.
-    myPlayer.update();
-    runUpdates();
+    if(gameStates.currentState == GameStateEnum.playing){
+      myPlayer.update();
+      runUpdates();
+    }
+
+    if(gameStates.currentState == GameStateEnum.intro){
+      ctx.clearRect(0,0, canvas.canvasElement.width, canvas.canvasElement.height);
+      var my_gradient = ctx.createLinearGradient(0, 0, 0, canvas.canvasElement.height);
+      my_gradient.addColorStop(0, "green");
+      my_gradient.addColorStop(1, '#3de551');
+      ctx.fillStyle = my_gradient;
+      ctx.fillRect(0, 0, canvas.canvasElement.width, canvas.canvasElement.height);
+      ctx.font = "50px Serif";
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "hanging";
+      ctx.fillText("BEEFCAKE",
+          canvas.canvasElement.width/2, canvas.canvasElement.height/4);
+
+      ctx.fillText("<- left, -> right, ^ jump, spacebar shoot",
+          canvas.canvasElement.width/2, canvas.canvasElement.height/2);
+    }
+
+    if(gameStates.currentState == GameStateEnum.gameOver){
+      gameOver();
+    }
+
+    if(gameStates.currentState == GameStateEnum.won){
+      Won();
+    }
+
 
     //Keep track of time...
     prevTime = time;
   }
+
+  void startGame(){
+    ctx.clearRect(0,0, canvas.canvasElement.width, canvas.canvasElement.height);
+    myPlayer = new Player();
+    gms = new GroundMakerSimple();
+    gms.makeGround();
+    generateGhosts();
+    gameStates.currentState = GameStateEnum.playing;
+  }
+
+  void restartGame(){
+    startGame();
+    gameStates.currentState = GameStateEnum.playing;
+  }
+
+  void gameOver(){
+    ctx.clearRect(0,0, canvas.canvasElement.width, canvas.canvasElement.height);
+    var my_gradient = ctx.createLinearGradient(0, 0, 0, canvas.canvasElement.height);
+    my_gradient.addColorStop(0, "green");
+    my_gradient.addColorStop(1, '#3de551');
+    ctx.fillStyle = my_gradient;
+    ctx.fillRect(0, 0, canvas.canvasElement.width, canvas.canvasElement.height);
+    ctx.font = "50px Serif";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER",
+        canvas.canvasElement.width/2, canvas.canvasElement.height/2);
+  }
+
+  void Won(){
+    ctx.clearRect(0,0, canvas.canvasElement.width, canvas.canvasElement.height);
+    var my_gradient = ctx.createLinearGradient(0, 0, 0, canvas.canvasElement.height);
+    my_gradient.addColorStop(0, "green");
+    my_gradient.addColorStop(1, '#3de551');
+    ctx.fillStyle = my_gradient;
+    ctx.fillRect(0, 0, canvas.canvasElement.width, canvas.canvasElement.height);
+    ctx.font = "50px Serif";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("YOU WON!",
+        canvas.canvasElement.width/2, canvas.canvasElement.height/2);
+  }
+
+
+
+  void checkGameState(){
+    if(gameStates.currentState == GameStateEnum.intro) startGame();
+    if(gameStates.currentState == GameStateEnum.gameOver) restartGame();
+    if(gameStates.currentState == GameStateEnum.won) restartGame();
+
+  }
+
 }
 
 void main() {
@@ -73,4 +160,5 @@ void main() {
   game.animate(0);
   window.onKeyDown.listen((ke) => keyMap[ke.keyCode] = true);
   window.onKeyUp.listen((ke) => keyMap[ke.keyCode] = false);
+  window.onClick.listen((cl) => clicked = true);
 }
