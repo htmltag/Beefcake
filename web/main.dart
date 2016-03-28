@@ -87,6 +87,9 @@ class Game {
 
       ctx.fillText("<- left, -> right, ^ jump, spacebar shoot",
           canvas.canvasElement.width/2, canvas.canvasElement.height/2);
+
+      ctx.fillText("V 0.1.0",
+          canvas.canvasElement.width/2, canvas.canvasElement.height/1.5);
     }
 
     if(gameStates.currentState == GameStateEnum.gameOver){
