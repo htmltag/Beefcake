@@ -7,26 +7,36 @@ void runUpdates() {
 }
 
 void _updateCoins() {
-  coins.forEach((co) {
-    if (co.taken) {
-      co.clear();
-      coins.remove(co);
-    }
-  });
+  List<Coin> toRemove = [];
+  if(coins.isNotEmpty){
+    coins.forEach((co) {
+      if (co.taken) {
+        co.clear();
+        toRemove.add(co);
+      }
+    });
+  }
+
+  coins.removeWhere((c) => toRemove.contains(c));
 }
 
 void _updateGhosts() {
-  ghosts.forEach((gst) {
-    gst.update();
-    if (gst.health == 0) {
-      Coin coin = new Coin();
-      coin.x = gst.x;
-      coin.y = gst.y;
-      coins.add(coin);
-      ghosts.remove(gst);
-      gst.clear();
-    }
-  });
+  List<Ghost> toRemove = [];
+  if(ghosts.isNotEmpty){
+    ghosts.forEach((gst) {
+      gst.update();
+      if (gst.health == 0) {
+        Coin coin = new Coin();
+        coin.x = gst.x;
+        coin.y = gst.y;
+        coins.add(coin);
+        gst.clear();
+        toRemove.add(gst);
+      }
+    });
+  }
+
+  ghosts.removeWhere((g) => toRemove.contains(g));
 
   if (ghosts.isEmpty) {
     generateGhosts();

@@ -37,7 +37,7 @@ class Ghost implements ImageLoader {
     ghost = new ImageElement(src: 'images/ghost-sprite-sheet.png');
     loadImage(ghost);
     spriteSheet =
-        new SpriteSheet(3, 3, width, height, spriteUpdatePrSec, ghost);
+        new SpriteSheet(3, 3, width, height, spriteUpdatePrSec, ghost, ctx);
     direction = GhostDirection.left;
   }
 

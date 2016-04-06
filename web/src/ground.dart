@@ -44,20 +44,27 @@ class GroundMakerSimple {
 }
 
 class Ground implements ImageLoader {
+  SpriteSheet spriteSheet;
   ImageElement ground;
   SpriteRectangle rect;
   int x, y;
   int width, height;
-  bool needsUpdate;
+  int groundSpriteNumber;
+  bool needsUpdate, collidable;
+  final int spriteUpdatePrSec = 10;
 
-  Ground({int posY: 0, int posX: 0}) {
-    ground = new ImageElement(src: 'images/ground.png');
-    width = height = 96;
+  Ground({int posY: 0, int posX: 0, int spriteNumber: 1, bool collidable: true}) {
+    ground = new ImageElement(src: 'images/ground-sprite-sheet.png');
+    height = groundTileHeight;
+    width = groundTileWidth;
     y = posY;
     x = posX;
+    groundSpriteNumber = spriteNumber;
     needsUpdate = false;
     rect = new SpriteRectangle();
     loadImage(ground);
+    spriteSheet =
+    new SpriteSheet(6, 6, width, height, spriteUpdatePrSec, ground, ctxLevel);
   }
 
   void loadImage(ImageElement image) {
@@ -68,7 +75,9 @@ class Ground implements ImageLoader {
   void onData(Event e) {
     print("success: ground added");
     //Draw it on the background
-    ctxLevel.drawImage(ground, x, y);
+    spriteSheet.singleFrame(x, y, groundSpriteNumber);
+    //spriteSheet.nextFrameMulti(x, y, true, groundSpriteNumber, groundSpriteNumber + 1);
+    //spriteSheet.nextFrame(x, y);
   }
 
   void onError(Event e) {
@@ -80,8 +89,8 @@ class Ground implements ImageLoader {
   }
 
   void update() {
-    ctxLevel.clearRect(x, y, width, height);
-    ctxLevel.drawImage(ground, x, y);
+    spriteSheet.clear();
+    spriteSheet.singleFrame(x, y, groundSpriteNumber);
   }
 
   SpriteRectangle getRect() {

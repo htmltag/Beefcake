@@ -10,6 +10,7 @@ part 'src/player.dart';
 part 'src/image_loader.dart';
 part 'src/sprite_sheet.dart';
 part 'src/ground.dart';
+part 'src/ground_generator.dart';
 part 'src/sprite_rectangle.dart';
 part 'src/collision_detection.dart';
 part 'src/bullet.dart';
@@ -35,9 +36,14 @@ CollisionDetection collisionDetection = new CollisionDetection();
 double deltaTime;
 bool clicked = false;
 
+//Sizes
+final int groundTileWidth = 96;
+final int groundTileHeight = 96;
+
 class Game {
   Player myPlayer;
-  GroundMakerSimple gms;
+  //GroundMakerSimple gms;
+  GroundGenerator groundGenerator;
 
   DateTime prevTime = new DateTime.now();
 
@@ -105,8 +111,8 @@ class Game {
   void startGame(){
     ctx.clearRect(0,0, canvas.canvasElement.width, canvas.canvasElement.height);
     myPlayer = new Player();
-    gms = new GroundMakerSimple();
-    gms.makeGround();
+    groundGenerator = new GroundGenerator();
+    groundGenerator.generateGround();
     generateGhosts();
     gameStates.currentState = GameStateEnum.playing;
   }

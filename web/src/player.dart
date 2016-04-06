@@ -35,7 +35,7 @@ class Player implements ImageLoader {
     player = new ImageElement(src: 'images/major-sprite-sheet.png');
     loadImage(player);
     spriteSheet =
-        new SpriteSheet(20, 7, width, height, spriteUpdatePrSec, player);
+        new SpriteSheet(20, 7, width, height, spriteUpdatePrSec, player, ctx);
     canFire = true;
     gun = new Gun();
     setupScoreElement();

@@ -1,6 +1,7 @@
 part of beefcakegame;
 
 class SpriteSheet {
+  CanvasRenderingContext2D frameCtx;
   ImageElement img;
   int numFrames, numFramesOnEachRow;
   int curFrame = 0;
@@ -11,10 +12,20 @@ class SpriteSheet {
   int drawPerSecond;
 
   SpriteSheet(this.numFrames, this.numFramesOnEachRow, this.frameSizeWidth,
-      this.frameSizeHeight, this.drawPerSecond, this.img) {}
+      this.frameSizeHeight, this.drawPerSecond, this.img, this.frameCtx) {}
+
+  //Draw only single frame from a sprite sheet.
+  void singleFrame(int positionX, int positionY, int frame){
+
+    int sourceWidth = (frame % numFramesOnEachRow) * frameSizeWidth;
+    int sourceHeight =
+        (frame / numFramesOnEachRow).floor() * frameSizeHeight;
+
+    _draw(positionX, positionY, sourceWidth, sourceHeight);
+  }
 
   //Simple animation, just repeat
-  nextFrame(int positionX, int positionY) {
+  void nextFrame(int positionX, int positionY) {
     if (frameCounter > (fps / drawPerSecond)) curFrame++;
 
     int sourceWidth = (curFrame % numFramesOnEachRow) * frameSizeWidth;
@@ -29,7 +40,7 @@ class SpriteSheet {
   }
 
   //For sprite sheet with multiple animations, set start and end of animation and if it needs to be restartet.
-  nextFrameMulti(int positionX, int positionY, bool resetCounter,
+  void nextFrameMulti(int positionX, int positionY, bool resetCounter,
       int startFrame, int endFrame) {
     if (frameCounter > (fps / drawPerSecond)) curFrame++;
     if ((curFrame < startFrame - 1) ||
@@ -49,9 +60,9 @@ class SpriteSheet {
 
   void _draw(int positionX, int positionY, int sourceWidth, int sourceHeight) {
     if (prevPosX != null && prevPosY != null) {
-      ctx.clearRect(prevPosX, prevPosY, frameSizeWidth, frameSizeHeight);
+      frameCtx.clearRect(prevPosX, prevPosY, frameSizeWidth, frameSizeHeight);
     }
-    ctx.drawImageScaledFromSource(
+    frameCtx.drawImageScaledFromSource(
         img,
         sourceWidth,
         sourceHeight,
@@ -75,7 +86,7 @@ class SpriteSheet {
 
   void clear() {
     if (prevPosX != null && prevPosY != null) {
-      ctx.clearRect(prevPosX, prevPosY, frameSizeWidth, frameSizeHeight);
+      frameCtx.clearRect(prevPosX, prevPosY, frameSizeWidth, frameSizeHeight);
     }
   }
 }

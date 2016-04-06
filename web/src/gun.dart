@@ -10,14 +10,16 @@ class Gun {
   }
 
   void update() {
+    List<Bullet> toRemove = [];
     bullets.forEach((bullet) {
       if (!bullet.visible && bullet.used) {
-        bullets.remove(bullet);
+        toRemove.add(bullet);
         bullet.reset();
-        bullet = null;
       } else {
         bullet.update();
       }
     });
+
+    bullets.removeWhere((b) => toRemove.contains(b));
   }
 }
