@@ -64,7 +64,7 @@ class GroundGenerator{
 
     //level3
     groundLevel = 2;
-    _addGroundTile(groundLevel, 2, 3);
+    _addGroundTile(groundLevel, 2, 6);
 
     updateStartPosX(hillSize);
 

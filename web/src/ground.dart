@@ -64,7 +64,7 @@ class Ground implements ImageLoader {
     rect = new SpriteRectangle();
     loadImage(ground);
     spriteSheet =
-    new SpriteSheet(6, 6, width, height, spriteUpdatePrSec, ground, ctxLevel);
+    new SpriteSheet(7, 7, width, height, spriteUpdatePrSec, ground, ctxLevel);
   }
 
   void loadImage(ImageElement image) {
